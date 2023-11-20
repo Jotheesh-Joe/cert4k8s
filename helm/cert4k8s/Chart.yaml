@@ -1,0 +1,8 @@
+apiVersion: v2
+description: The internal chart to update certmanager.io based on istio objects
+maintainers:
+- email: jotheeswaran.lakshmanan@volvocars.com
+  name: Jotheeswaran Lakshmanan
+name: cert4k8s-chart
+type: application
+version: 0.1.4
