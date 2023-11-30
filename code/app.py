@@ -276,7 +276,7 @@ def main():
                             now = datetime.datetime.now()
                             # checking for correct annotation
                             annotation_dict = event['object']['metadata']['annotations']
-                            if ('bakery.volvocars.biz/cert4k8s', 'enabled') in annotation_dict.items() and ('bakery.volvocars.biz/cert4k8s-type', 'dedicated') in annotation_dict.items():
+                            if ('jotheesh-joe.biz/cert4k8s', 'enabled') in annotation_dict.items() and ('jotheesh-joe.biz/cert4k8s-type', 'dedicated') in annotation_dict.items():
                                 newEvent = {
                                     "Event": event['type'],
                                     'Name': event['object']['metadata']['name'],
