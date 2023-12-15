@@ -1,7 +1,7 @@
 apiVersion: v2
 description: An utility to update certmanager.io certificate objects based on istio objects
 maintainers:
-  - email: joe7mailbox@gmail.com
+  - email: joemailbox77@gmail.com
     name: Jotheeswaran Lakshmanan
 name: cert4k8s
 type: application
