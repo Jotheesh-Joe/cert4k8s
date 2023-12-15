@@ -1,26 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.name }}-deployment
+  name: {{ .Chart.Name }}-deployment
   namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      app: {{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.name }}
+        app: {{ .Chart.Name }}
     spec:
-      serviceAccountName: {{ .Values.name }}-sa
+      serviceAccountName: {{ .Chart.Name }}-sa
       containers:
-      - name: {{ .Values.name }}
-        image: public.ecr.aws/jotheesh-joe/custom/cert4k8s:{{ .Values.image.version }}
+      - image: {{ .Values.docker.registry }}/{{ .Values.docker.image.name }}:{{ .Values.docker.image.version }}
+        imagePullPolicy: IfNotPresent
+        name: {{ .Chart.Name }}-container
+        ports:
+        - containerPort: {{ .Values.docker.container.targetPort }}
+        {{- if .Values.resources }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        {{- end }}        
         env:
         - name: URLS
-          value: {{ .Values.domains }}
-      imagePullSecrets:
-      - name: {{ .Values.image.secret }}
+          value: {{ .Values.config.domains }}

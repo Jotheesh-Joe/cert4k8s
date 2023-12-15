@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ .Values.name }}-role
+  name: {{ .Chart.Name }}-role
 rules:
 - apiGroups:
   - networking.istio.io

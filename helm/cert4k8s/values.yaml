@@ -1,15 +1,24 @@
-# Default values for cert4k8s-chart.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-name: cert4k8s
-
 namespace: cert4k8s
 
-image:
-  version: 0.0.49
-  secret: cert4k8s-imagepullsecret
-  
-# Give all the domains with comma separated
-domains: ""
+docker:
+  registry: ghcr.io/jotheesh-joe
+  image:
+    name: cert4k8s
+    version: 4e3977f8c9c4c65e6a4b0e364b578e7b417a9724
+  container:
+    targetPort: 80
+
+deployment:
+  replicas: 1
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 4Gi
+  limits:
+    cpu: 2000m
+    memory: 16Gi
+
+config:
+  domains: dev.example.com, staging.example.com
  
