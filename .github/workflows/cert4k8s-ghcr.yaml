@@ -1,0 +1,52 @@
+name: cert4k8s github action
+on:
+  push:
+    paths:
+      - code/**
+jobs:
+  publish-cert4k8s-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build the Hello Kubernetes Docker image
+        run: |
+          IMAGE_TAG="ghcr.io/jotheesh-joe/cert4k8s:${{ github.sha }}"
+          docker build . -f app/Dockerfile --tag $IMAGE_TAG
+          docker push $IMAGE_TAG
+
+  update-hellokubernetes-helmchart:
+    needs: [publish-cert4k8s-image]
+    if: ${{ always() && !cancelled() && needs.publish-cert4k8s-image.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update docker image version in values yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          commitChange: true
+          branch: main
+          createPR: false
+          message: "cert4k8s helm chart docker version updated"  
+          changes: |
+            {
+              "helm/cert4k8s/values.yaml": {
+                "docker.image.version": "${{ github.sha }}"
+              },
+              "helm/cert4k8s/Chart.yaml": {
+                "version": "0.${{ github.run_number }}"
+              }
+            }
