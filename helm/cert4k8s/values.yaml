@@ -1,16 +1,13 @@
 namespace: cert4k8s
-
 docker:
   registry: ghcr.io/jotheesh-joe
   image:
     name: cert4k8s
-    version: 4e3977f8c9c4c65e6a4b0e364b578e7b417a9724
+    version: 1a6fb01a19a71c6e094ac6106eb90ce9c6afda0e
   container:
     targetPort: 80
-
 deployment:
   replicas: 1
-
 resources:
   requests:
     cpu: 200m
@@ -18,7 +15,5 @@ resources:
   limits:
     cpu: 2000m
     memory: 16Gi
-
 config:
   domains: dev.example.com, staging.example.com
- 
