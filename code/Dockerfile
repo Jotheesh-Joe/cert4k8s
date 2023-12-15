@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-LABEL maintainer="JotheeswaranLakshmanan"
+LABEL maintainer="Jotheeswaran Lakshmanan"
 
 WORKDIR /usr/app/src
 
