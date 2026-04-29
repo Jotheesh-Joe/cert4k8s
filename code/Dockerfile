@@ -4,9 +4,7 @@ LABEL maintainer="Jotheeswaran Lakshmanan"
 
 WORKDIR /usr/app/src
 
-COPY code/app.py /usr/app/src
-
-COPY code/requirements.txt /usr/app/src
+COPY code/ /usr/app/src/
 
 RUN pip install -r ./requirements.txt
 
