@@ -1,6 +1,8 @@
 name: cert4k8s github action
 on:
   push:
+    branches:
+      - main
     paths:
       - code/**
 jobs:
@@ -31,6 +33,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      pull-requests: write
       id-token: write
     steps:
       - uses: actions/checkout@v2
@@ -38,9 +41,12 @@ jobs:
         uses: fjogeleit/yaml-update-action@main
         with:
           commitChange: true
-          branch: main
-          createPR: false
+          branch: values-update/${{ github.run_id }}
+          targetBranch: main
+          createPR: true
           message: "cert4k8s helm chart docker version updated"  
+          title: "Update cert4k8s Helm chart image version"
+          description: "Updates Helm chart image metadata after the cert4k8s image is built from main."
           changes: |
             {
               "helm/cert4k8s/values.yaml": {
